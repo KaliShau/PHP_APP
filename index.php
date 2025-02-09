@@ -1,12 +1,16 @@
 <?php 
-    session_start()
+    session_start();
+
+    if ($_SESSION['user']) {
+        header('Location: ./src/pages/home.php');
+      };
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./src/css/main.scss"/>
+    <link rel="stylesheet" href="./src/css/auth.scss"/>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,9 +18,9 @@
 
     <title>PHP</title>
 </head>
-<body>
+<body class="bg-image">
     
-    <!-- Auth form -->
+    <!-- SignIn form -->
      
     <h1>Форма входа</h1>
     <form action='./src/functions/signIn.php' method='POST'>
@@ -26,6 +30,9 @@
         <label>Пароль</label>
         <input name="password" type="password" placeholder="Введите пароль">
         <button type="submit">Войти</button>
+
+        <a href="./src/pages/signUp.php">Переход к регистрации</a>
+
         <?php if ($_SESSION['error']) {
             echo '<p>'. $_SESSION['error'] .'</p>';
             unset($_SESSION['error']);

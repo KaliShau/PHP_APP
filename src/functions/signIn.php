@@ -2,7 +2,7 @@
   
   session_start();
 
-  require_once('./db.php');
+  $connect = require_once('./db.php');
 
   $login = $_POST['login'];
   $password = $_POST['password'];
