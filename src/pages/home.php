@@ -24,21 +24,23 @@
     <img src="../assets/icons/crow.png" width="100px" alt="">
     <a href="./home.php">Home</a>
     <a href="./posts.php">Posts</a>
+    <a href="./createPost.php">Create post</a>
   </aside>
   
   <main>
     <h1>My user</h1>
 
     <div>
-
-      <?php 
-      echo "<p>Имя: " . $_SESSION['user']['name'] . "</p>";
-      echo "<p>Логин: " . $_SESSION['user']['login'] . "</p>";
-      echo "<p>Пароль: " . $_SESSION['user']['password'] . "</p>";
-      ?>
-    <form action="../functions/signOut.php">
-      <button>Выход</button>
-    </form>
+      <div class="data-user">
+        <?php 
+        echo "<p>Имя: " . $_SESSION['user']['name'] . "</p>";
+        echo "<p>Логин: " . $_SESSION['user']['login'] . "</p>";
+        echo "<p>Пароль: " . $_SESSION['user']['password'] . "</p>";
+        ?>
+      </div>
+      <form action="../functions/signOut.php">
+        <button>Выход</button>
+      </form>
     </div>
   </main>
 

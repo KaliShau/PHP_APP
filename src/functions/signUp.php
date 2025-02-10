@@ -14,17 +14,45 @@
     exit();
   }
 
-  mysqli_query($connect,"INSERT INTO users(name, login, password) VALUE('$name', '$login', '$password');");
+  // get user by login
 
-  $check_user = mysqli_query($connect, "SELECT * FROM users WHERE login = '$login' AND password = '$password';");
+  $stmt = mysqli_prepare($connect, "SELECT * FROM users WHERE login = ?");
+  mysqli_stmt_bind_param($stmt, "s", $login);
+  mysqli_stmt_execute($stmt);
+  $oldUser = mysqli_stmt_get_result($stmt);
+
+  if ((mysqli_num_rows($oldUser) > 0)) {
+    $_SESSION['error'] = 'Ошибка в запросе';
+    header("Location: ../pages/signUp.php");
+    exit();
+  }
+
+  mysqli_stmt_close($stmt);
+
+  // create user
+
+  $stmt = mysqli_prepare($connect, "INSERT INTO users (name, login, password) VALUES (?, ?, ?)");
+  mysqli_stmt_bind_param($stmt, "sss", $name, $login, $password);
+  mysqli_stmt_execute($stmt);
+  mysqli_stmt_close($stmt);
+
+  // sign in
+
+  $stmt = mysqli_prepare($connect, "SELECT * FROM users WHERE login = ?");
+  mysqli_stmt_bind_param($stmt, "s", $login);
+  mysqli_stmt_execute($stmt);
   
-  if ((mysqli_num_rows($check_user) == 0)) {
+  $result = mysqli_stmt_get_result($stmt);
+  
+  if ((mysqli_num_rows($result) == 0)) {
     $_SESSION['error'] = 'Ошибка в запросе';
     header("Location: ../pages/signUp.php");
     exit();
   }
   
-  $user = mysqli_fetch_assoc($check_user);
+  $user = mysqli_fetch_assoc($result);
   $_SESSION['user'] = $user;
+  mysqli_stmt_close($stmt);
+
   header("Location: ../pages/home.php");
 ?>

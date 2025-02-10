@@ -34,13 +34,14 @@
     <img src="../assets/icons/crow.png" width="100px" alt="">
     <a href="./home.php">Home</a>
     <a href="./posts.php">Posts</a>
+    <a href="./createPost.php">Create post</a>
   </aside>
   
   <main>
   <h1>Posts</h1>
 
-  <?php 
-  
+  <div class="posts">
+    <?php 
     foreach ($posts as $post) {
       echo '<div class="post">';
       echo '<img src="' . $post['image'] . '" alt="" />';
@@ -48,8 +49,8 @@
       echo '<p>'. $post['content'] . '</p>';
       echo '</div>';
     }
-
-  ?>
+    ?>
+  </div>
   </main>
 
 </body>

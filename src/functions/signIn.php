@@ -13,16 +13,21 @@
     exit();
 }
 
-  $check_user = mysqli_query($connect, "SELECT * FROM users WHERE login = '$login' AND password = '$password';");
-  
-  if ((mysqli_num_rows($check_user) == 0)) {
+  $stmt = mysqli_prepare($connect, "SELECT * FROM users WHERE login = ? AND password = ?");
+  mysqli_stmt_bind_param($stmt, "ss", $login, $password);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+
+  if ((mysqli_num_rows($result) == 0)) {
     $_SESSION['error'] = 'Пользователь не найден';
     header("Location: ../../index.php");
     exit();
   }
   
-  $user = mysqli_fetch_assoc($check_user);
+  $user = mysqli_fetch_assoc($result);
   $_SESSION['user'] = $user;
+  mysqli_stmt_close($stmt);
+  
   header("Location: ../pages/home.php");
 ?>
 
